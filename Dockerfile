@@ -16,7 +16,6 @@ COPY src/SimpleSocial/Tests/SandBox/*.csproj ./SimpleSocial/Tests/SandBox/
 COPY src/SimpleSocial/Tests/SimpleSocial.Services.DataServices.Tests/*.csproj ./SimpleSocial/Tests/SimpleSocial.Services.DataServices.Tests/
 COPY src/SimpleSocial/Web/SimpleSocial.Web.Chat/*.csproj ./SimpleSocial/Web/SimpleSocial.Web.Chat/
 COPY src/SimpleSocial/Web/SimpleSocial.Web/*.csproj ./SimpleSocial/Web/SimpleSocial.Web/
-
 RUN dotnet restore
 
 # copy everything else and build each folder app
