@@ -2,11 +2,11 @@ FROM microsoft/dotnet:2.2-sdk AS build
 WORKDIR /app
 
 # copy sln and restore as distinct layers
-COPY src/SimpleScoial/*.sln .
+COPY src/SimpleSocial/*.sln .
 RUN dotnet restore
 
 # copy everything else and build app
-COPY src/SimpleScoial/. ./SimpleSocial/
+COPY src/SimpleSocial/. ./SimpleSocial/
 WORKDIR /app/SimpleSocial
 RUN dotnet publish -c Release -o out
 
