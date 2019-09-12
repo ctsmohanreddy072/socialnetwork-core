@@ -3,7 +3,7 @@ WORKDIR /app
 
 # copy sln and restore as distinct layers
 COPY src/SimpleSocial/*.sln .
-RUN dotnet restore
+#RUN dotnet restore
 
 # copy everything else and build app
 COPY src/SimpleSocial/. ./SimpleSocial/
