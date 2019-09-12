@@ -1,17 +1,65 @@
 FROM microsoft/dotnet:2.2-sdk AS build
 WORKDIR /app
 
-# copy sln and restore as distinct layers
+# copy sln&csproj and restore as distinct layers
 COPY src/SimpleSocial/*.sln .
-#RUN dotnet restore
+COPY src/SimpleSocial/Data/SimpleSocial.Data.Common/*.csproj ./SimpleSocial/Data/SimpleSocial.Data.Common
+COPY src/SimpleSocial/Data/SimpleSocial.Data.Models/*.csproj ./SimpleSocial/Data/SimpleSocial.Data.Models
+COPY src/SimpleSocial/Data/SimpleSocial.Data/*.csproj ./SimpleSocial/Data/SimpleSocial.Data
+COPY src/SimpleSocial/Services/SimpleSocia.Services.Models/*.csproj ./SimpleSocial/Services/SimpleSocia.Services.Models
+COPY src/SimpleSocial/Services/SimpleSocial.Services.DataServices/*.csproj ./SimpleSocial/DServices/SimpleSocial.Services.DataServices
+COPY src/SimpleSocial/Services/SimpleSocial.Services.Mapping/*.csproj ./SimpleSocial/Services/SimpleSocial.Services.Mapping
+COPY src/SimpleSocial/Tests/SandBox/*.csproj ./SimpleSocial/Tests/SandBox
+COPY src/SimpleSocial/Tests/SimpleSocial.Services.DataServices.Tests/*.csproj ./SimpleSocial/Tests/SimpleSocial.Services.DataServices.Tests
+COPY src/SimpleSocial/Web/SimpleSocial.Web.Chat/*.csproj ./SimpleSocial/Web/SimpleSocial.Web.Chat
+COPY src/SimpleSocial/Web/SimpleSocial.Web/*.csproj ./SimpleSocial/Web/SimpleSocial.Web
 
-# copy everything else and build app
+RUN dotnet restore
+
+# copy everything else and build each folder app
 COPY src/SimpleSocial/. ./SimpleSocial/
-WORKDIR /app/SimpleSocial
-RUN dotnet publish -c Release -o out
+WORKDIR /app/SimpleSocial/Data/SimpleSocial.Data.Common
+RUN dotnet build -c Release -o /bld
 
+WORKDIR /app/SimpleSocial/Data/SimpleSocial.Data.Models
+RUN dotnet build -c Release -o /bld
 
-FROM microsoft/dotnet:2.2-aspnetcore-runtime AS runtime
+WORKDIR /app/SimpleSocial/Data/SimpleSocial.Data
+RUN dotnet build -c Release -o /bld
+
+WORKDIR /app/SimpleSocial/Services/SimpleSocia.Services.Models
+RUN dotnet build -c Release -o /bld
+
+WORKDIR /app/SimpleSocial/Services/SimpleSocial.Services.DataServices
+RUN dotnet build -c Release -o /bld
+
+WORKDIR /app/SimpleSocial/Services/SimpleSocial.Services.Mapping
+RUN dotnet build -c Release -o /bld
+
+WORKDIR /app/SimpleSocial/Tests/SandBox
+RUN dotnet build -c Release -o /bld
+
+WORKDIR /app/SimpleSocial/Tests/SimpleSocial.Services.DataServices.Tests
+RUN dotnet build -c Release -o /bld
+
+WORKDIR /app/SimpleSocial/Web/SimpleSocial.Web.Chat
+RUN dotnet build -c Release -o /bld
+
+WORKDIR /app/SimpleSocial/Web/SimpleSocial.Web
+RUN dotnet build -c Release -o /bld
+
+FROM build AS publish
+RUN dotnet publish -c Release -o /bld
+
+FROM base AS final
 WORKDIR /app
-COPY --from=build /app/SimpleSocial/out ./
+COPY --from=publish /bld .
 ENTRYPOINT ["dotnet", "SimpleSocial.dll"]
+
+#RUN dotnet publish -c Release -o out
+
+
+#FROM microsoft/dotnet:2.2-aspnetcore-runtime AS runtime
+#WORKDIR /app
+#COPY --from=build /app/SimpleSocial/out ./
+#ENTRYPOINT ["dotnet", "SimpleSocial.dll"]
