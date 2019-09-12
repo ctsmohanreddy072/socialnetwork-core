@@ -50,7 +50,8 @@ RUN dotnet build -c Release -o /bld
 FROM build AS publish
 RUN dotnet publish -c Release -o /bld
 
-FROM base AS final
+#FROM base AS final
+FROM microsoft/dotnet:2.2-aspnetcore-runtime AS runtime
 WORKDIR /app
 COPY --from=publish /bld .
 ENTRYPOINT ["dotnet", "SimpleSocial.dll"]
