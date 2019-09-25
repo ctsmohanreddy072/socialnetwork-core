@@ -55,6 +55,16 @@ FROM microsoft/dotnet:2.2-aspnetcore-runtime AS runtime
 WORKDIR /app
 COPY --from=publish /out .
 ENTRYPOINT ["dotnet", "SimpleSocial.Data.Common.dll"]
+ENTRYPOINT ["dotnet", "SimpleSocial.Data.Models.dll"]
+ENTRYPOINT ["dotnet", "SimpleSocial.Data.dll"]
+ENTRYPOINT ["dotnet", "SimpleSocia.Services.Models"]
+ENTRYPOINT ["dotnet", "SimpleSocial.Services.DataServices.dll"]
+ENTRYPOINT ["dotnet", "SimpleSocial.Services.Mapping.dll"]
+ENTRYPOINT ["dotnet", "SandBox.dll"]
+ENTRYPOINT ["dotnet", "SimpleSocial.Services.DataServices.Tests.dll"]
+ENTRYPOINT ["dotnet", "SimpleSocial.Web.Chat"]
+ENTRYPOINT ["dotnet", "SimpleSocial.Web"]
+
 
 #RUN dotnet publish -c Release -o out
 
