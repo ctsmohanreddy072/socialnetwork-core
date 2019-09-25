@@ -48,6 +48,7 @@ WORKDIR /src/SimpleSocial/Web/SimpleSocial.Web
 RUN dotnet build -c Release -o /bld
 
 FROM build AS publish
+WORKDIR /src
 RUN dotnet publish -c Release -o /bld
 
 #FROM base AS final
