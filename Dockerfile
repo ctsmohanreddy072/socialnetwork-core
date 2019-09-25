@@ -48,13 +48,12 @@ WORKDIR /src/SimpleSocial/Web/SimpleSocial.Web
 RUN dotnet build -c Release -o /bld
 
 FROM build AS publish
-WORKDIR /src
-RUN dotnet publish -c Release -o /bld
+RUN dotnet publish -c Release -o /out
 
 #FROM base AS final
 FROM microsoft/dotnet:2.2-aspnetcore-runtime AS runtime
 WORKDIR /app
-COPY --from=publish /bld .
+COPY --from=publish /out .
 ENTRYPOINT ["dotnet", "SimpleSocial.dll"]
 
 #RUN dotnet publish -c Release -o out
