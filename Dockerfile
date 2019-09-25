@@ -62,8 +62,8 @@ ENTRYPOINT ["dotnet", "SimpleSocial.Services.DataServices.dll"]
 ENTRYPOINT ["dotnet", "SimpleSocial.Services.Mapping.dll"]
 ENTRYPOINT ["dotnet", "SandBox.dll"]
 ENTRYPOINT ["dotnet", "SimpleSocial.Services.DataServices.Tests.dll"]
-ENTRYPOINT ["dotnet", "SimpleSocial.Web.Chat"]
-ENTRYPOINT ["dotnet", "SimpleSocial.Web"]
+ENTRYPOINT ["dotnet", "SimpleSocial.Web.Chat.dll"]
+ENTRYPOINT ["dotnet", "SimpleSocial.Web.dll"]
 
 
 #RUN dotnet publish -c Release -o out
